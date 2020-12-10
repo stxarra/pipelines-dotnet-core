@@ -6,6 +6,16 @@
 trigger:
 - main
 
+strategy:
+  matrix:
+    linux:
+      imageName: "ubuntu-16.04"
+    mac:
+      imageName: "macos-10.14"
+    windows:
+      imageName: "vs2017-win2016"
+  maxParallel: 3
+
 pool:
   vmImage: 'vs2017-win2016'
 
@@ -15,10 +25,3 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
-
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: "JaCoCo"
-    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
-    failIfCoverageEmpty: true
